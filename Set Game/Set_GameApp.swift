@@ -2,7 +2,7 @@
 //  Set_GameApp.swift
 //  Set Game
 //
-//  Created by Roberto Aranda on 01/12/2021.
+//  Created by Tomás Aranda on 01/12/2021.
 //
 
 import SwiftUI
@@ -11,7 +11,7 @@ import SwiftUI
 struct Set_GameApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SetGameView()
         }
     }
 }

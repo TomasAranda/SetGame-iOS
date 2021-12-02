@@ -8,18 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		C6484D2E2757C6FF000564F5 /* Set_GameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6484D2D2757C6FF000564F5 /* Set_GameApp.swift */; };
-		C6484D302757C700000564F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6484D2F2757C700000564F5 /* ContentView.swift */; };
+		C6484D302757C700000564F5 /* SetGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6484D2F2757C700000564F5 /* SetGameView.swift */; };
 		C6484D322757C709000564F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6484D312757C709000564F5 /* Assets.xcassets */; };
 		C6484D352757C709000564F5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6484D342757C709000564F5 /* Preview Assets.xcassets */; };
+		C6484D3D2757C8D1000564F5 /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6484D3C2757C8D1000564F5 /* SetGame.swift */; };
+		C6484D40275916EF000564F5 /* SetGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6484D3F275916EF000564F5 /* SetGameViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C6484D2A2757C6FF000564F5 /* Set Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Set Game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6484D2D2757C6FF000564F5 /* Set_GameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set_GameApp.swift; sourceTree = "<group>"; };
-		C6484D2F2757C700000564F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C6484D2F2757C700000564F5 /* SetGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameView.swift; sourceTree = "<group>"; };
 		C6484D312757C709000564F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6484D342757C709000564F5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C6484D362757C709000564F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6484D3C2757C8D1000564F5 /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
+		C6484D3F275916EF000564F5 /* SetGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,11 +56,13 @@
 		C6484D2C2757C6FF000564F5 /* Set Game */ = {
 			isa = PBXGroup;
 			children = (
+				C6484D3E2757D1F5000564F5 /* Model */,
 				C6484D2D2757C6FF000564F5 /* Set_GameApp.swift */,
-				C6484D2F2757C700000564F5 /* ContentView.swift */,
+				C6484D2F2757C700000564F5 /* SetGameView.swift */,
 				C6484D312757C709000564F5 /* Assets.xcassets */,
 				C6484D362757C709000564F5 /* Info.plist */,
 				C6484D332757C709000564F5 /* Preview Content */,
+				C6484D3F275916EF000564F5 /* SetGameViewModel.swift */,
 			);
 			path = "Set Game";
 			sourceTree = "<group>";
@@ -67,6 +73,14 @@
 				C6484D342757C709000564F5 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C6484D3E2757D1F5000564F5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C6484D3C2757C8D1000564F5 /* SetGame.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,8 +152,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6484D302757C700000564F5 /* ContentView.swift in Sources */,
+				C6484D302757C700000564F5 /* SetGameView.swift in Sources */,
+				C6484D3D2757C8D1000564F5 /* SetGame.swift in Sources */,
 				C6484D2E2757C6FF000564F5 /* Set_GameApp.swift in Sources */,
+				C6484D40275916EF000564F5 /* SetGameViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
