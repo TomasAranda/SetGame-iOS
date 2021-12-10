@@ -17,23 +17,30 @@ struct SetGame {
     
     // select card
     mutating func choose(_ card: Card) {
-        if let choosenIndex = cards.firstIndex(where: { $0.id == card.id }),
-           !cards[choosenIndex].isMatched,
-           !cards[choosenIndex].isSelected {
+        if let choosenCardId = cards.firstIndex(where: { $0.id == card.id }),
+           !cards[choosenCardId].isMatched {
             if indicesOfSelectedCards.count < 3 {
-                cards[choosenIndex].isSelected = true
-                indicesOfSelectedCards.append(cards[choosenIndex].id)
+                if cards[choosenCardId].isSelected {
+                    // deselection of card already selected
+                    indicesOfSelectedCards.remove(at: indicesOfSelectedCards.firstIndex(of: cards[choosenCardId].id)!)
+                    cards[choosenCardId].isSelected = false
+                    return
+                }
+                // selection
+                cards[choosenCardId].isSelected = true
+                indicesOfSelectedCards.append(cards[choosenCardId].id)
                 if indicesOfSelectedCards.count == 3 {
+                    // matching check
                     let arrayOfSelectedCards = cards.filter { indicesOfSelectedCards.contains($0.id) }
                     if SetGame.isSet(ofCards: arrayOfSelectedCards) {
                         cards.indices.forEach { cards[$0].isMatched = indicesOfSelectedCards.contains($0) }
                         indicesOfSelectedCards.removeAll()
                     }
                 }
-            } else {
+            } else if !indicesOfSelectedCards.contains(choosenCardId) {
                 // cards.count == 3 && isSet(arrayOfSelectedCards) == false
                 indicesOfSelectedCards.removeAll()
-                indicesOfSelectedCards.append(cards[choosenIndex].id)
+                indicesOfSelectedCards.append(cards[choosenCardId].id)
             }
         }
     }
