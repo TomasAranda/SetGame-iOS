@@ -9,23 +9,36 @@ import Foundation
 
 struct SetGame {
     private(set) var cards: Array<Card>
+    private var indicesOfSelectedCards = Array<Int>()
     
-    private var selectedCards: Array<Card> {
-        get { cards.filter { $0.isSelected } }
-    }
-    
-    init (cards: Array<Card>) {
+    init () {
         self.cards = SetGame.generateCardDeck()
     }
     
     // select card
     mutating func choose(_ card: Card) {
-        if let choosenIndex = cards.firstIndex(where: { $0.id == card.id }) {
-            cards[choosenIndex].isSelected = true
+        if let choosenIndex = cards.firstIndex(where: { $0.id == card.id }),
+           !cards[choosenIndex].isMatched,
+           !cards[choosenIndex].isSelected {
+            if indicesOfSelectedCards.count < 3 {
+                cards[choosenIndex].isSelected = true
+                indicesOfSelectedCards.append(cards[choosenIndex].id)
+                if indicesOfSelectedCards.count == 3 {
+                    let arrayOfSelectedCards = cards.filter { indicesOfSelectedCards.contains($0.id) }
+                    if SetGame.isSet(ofCards: arrayOfSelectedCards) {
+                        cards.indices.forEach { cards[$0].isMatched = indicesOfSelectedCards.contains($0) }
+                        indicesOfSelectedCards.removeAll()
+                    }
+                }
+            } else {
+                // cards.count == 3 && isSet(arrayOfSelectedCards) == false
+                indicesOfSelectedCards.removeAll()
+                indicesOfSelectedCards.append(cards[choosenIndex].id)
+            }
         }
     }
         
-    static func isSet(cards: Array<Card>) -> Bool {
+    static func isSet(ofCards cards: Array<Card>) -> Bool {
         guard cards.count == 3 else {
             return false
         }
@@ -61,13 +74,15 @@ struct SetGame {
 extension SetGame {
     private static func generateCardDeck() -> Array<Card> {
         var deck = Array<Card>()
+        var incrementalId = 0
         
         for number in CardAttributeVariant.allCases {
             for shape in CardAttributeVariant.allCases {
                 for color in CardAttributeVariant.allCases {
                     for shading in CardAttributeVariant.allCases {
+                        incrementalId += 1
                         deck.append(Card(
-                            id: 1,
+                            id: incrementalId,
                             attributes: CardAttributes(
                                 number: number,
                                 shape: shape,
@@ -80,7 +95,7 @@ extension SetGame {
             }
         }
         
-        return deck
+        return deck.shuffled()
     }
 }
 
