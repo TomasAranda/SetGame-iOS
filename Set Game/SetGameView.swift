@@ -8,14 +8,23 @@
 import SwiftUI
 
 struct SetGameView: View {
+    @ObservedObject var game: SetGameViewModel
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        VStack{
+            Text(String(game.cards.count))
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 20, maximum: 30))], spacing: 0) {
+                ForEach(game.cards) { card in
+                    Text(String(card.id))
+                }
+            }
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        SetGameView()
+        let game = SetGameViewModel()
+        SetGameView(game: game)
     }
 }
