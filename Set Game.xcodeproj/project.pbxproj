@@ -59,10 +59,10 @@
 				C6484D3E2757D1F5000564F5 /* Model */,
 				C6484D2D2757C6FF000564F5 /* Set_GameApp.swift */,
 				C6484D2F2757C700000564F5 /* SetGameView.swift */,
+				C6484D3F275916EF000564F5 /* SetGameViewModel.swift */,
 				C6484D312757C709000564F5 /* Assets.xcassets */,
 				C6484D362757C709000564F5 /* Info.plist */,
 				C6484D332757C709000564F5 /* Preview Content */,
-				C6484D3F275916EF000564F5 /* SetGameViewModel.swift */,
 			);
 			path = "Set Game";
 			sourceTree = "<group>";
