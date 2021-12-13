@@ -12,10 +12,42 @@ struct SetGameView: View {
     
     var body: some View {
         VStack{
-            Text(String(game.cards.count))
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 20, maximum: 30))], spacing: 0) {
-                ForEach(game.cards) { card in
-                    Text(String(card.id))
+            Text(String(game.cards[1].attributes.color.rawValue))
+            
+            Spacer()
+            
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 70, maximum: 70))], spacing: 2) {
+                    ForEach(game.cards) { card in
+                        CardView(card: card).onTapGesture {
+                            game.choose(card)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct CardView: View {
+    let card: SetGame.Card
+    
+    var body: some View {
+        ZStack {
+            let shape = RoundedRectangle(cornerRadius: 10.0)
+            shape.fill().foregroundColor(.gray)
+            shape.strokeBorder(Color.red, lineWidth: 1.0)
+            
+            if card.isSelected {
+                shape.foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+            }
+            if card.isMatched {
+                shape.foregroundColor(.green)
+            }
+            
+            VStack {
+                ForEach(card.attributes.toArrayOfRawValues(), id: \.self) { attr in
+                    Text(String(attr))
                 }
             }
         }
