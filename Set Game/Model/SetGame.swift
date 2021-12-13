@@ -33,14 +33,21 @@ struct SetGame {
                     // matching check
                     let arrayOfSelectedCards = cards.filter { indicesOfSelectedCards.contains($0.id) }
                     if SetGame.isSet(ofCards: arrayOfSelectedCards) {
-                        cards.indices.forEach { cards[$0].isMatched = indicesOfSelectedCards.contains($0) }
+                        cards.indices.forEach {
+                            if !cards[$0].isMatched {
+                                cards[$0].isMatched = indicesOfSelectedCards.contains($0 + 1)
+                            }
+                        }
+                        cards.indices.forEach { cards[$0].isSelected = false }
                         indicesOfSelectedCards.removeAll()
                     }
                 }
-            } else if !indicesOfSelectedCards.contains(choosenCardId) {
+            } else if !indicesOfSelectedCards.contains(choosenCardId + 1) {
                 // cards.count == 3 && isSet(arrayOfSelectedCards) == false
+                cards.indices.forEach { cards[$0].isSelected = false }
                 indicesOfSelectedCards.removeAll()
                 indicesOfSelectedCards.append(cards[choosenCardId].id)
+                cards[choosenCardId].isSelected = true
             }
         }
     }
@@ -102,7 +109,7 @@ extension SetGame {
             }
         }
         
-        return deck.shuffled()
+        return deck/*.shuffled()*/
     }
 }
 
