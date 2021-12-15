@@ -35,7 +35,7 @@ struct SetGame {
                     if SetGame.isSet(ofCards: arrayOfSelectedCards) {
                         cards.indices.forEach {
                             if !cards[$0].isMatched {
-                                cards[$0].isMatched = indicesOfSelectedCards.contains($0 + 1)
+                                cards[$0].isMatched = indicesOfSelectedCards.contains(cards[$0].id)
                             }
                         }
                         cards.indices.forEach { cards[$0].isSelected = false }
@@ -109,7 +109,8 @@ extension SetGame {
             }
         }
         
-        return deck/*.shuffled()*/
+        return deck.shuffled()
+//        return deck
     }
 }
 

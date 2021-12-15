@@ -25,7 +25,7 @@ struct SetGameView: View {
             Spacer()
             
             Button { game.newGame() } label: {
-                Text("Button")
+                Text("New Game")
             }
         }
     }
@@ -46,11 +46,11 @@ struct CardView: View {
     
     var body: some View {
         ZStack {
-            let shape = RoundedRectangle(cornerRadius: 10.0).frame(width: 70, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            let shape = RoundedRectangle(cornerRadius: 10.0).frame(width: 70, height: 100, alignment: .center)
             if card.isSelected {
-                shape.foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+                shape.foregroundColor(.blue).opacity(0.7)
             } else {
-                shape.foregroundColor(.black)
+                shape.opacity(0.2)
             }
             if card.isMatched {
                 shape.foregroundColor(Color(red: 0.0, green: 1.0, blue: 0.0, opacity: 0.3))
@@ -58,20 +58,79 @@ struct CardView: View {
             
             VStack {
                 ForEach(0..<card.attributes.number.rawValue) { _ in
-                    if card.attributes.shape == .one {
-                        Rectangle()
-                            .frame(width: 50, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            .foregroundColor(color)
-                    } else if card.attributes.shape == .two {
-                        Capsule()
-                            .frame(width: 50, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            .foregroundColor(color)
-                    } else if card.attributes.shape == .three {
-                        Circle()
-                            .frame(width: 20, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            .foregroundColor(color)
+                    switch card.attributes.shape {
+                    case .one:
+                        RectangleView(shading: card.attributes.shading, color: color)
+                    case .two:
+                        CapsuleView(shading: card.attributes.shading, color: color)
+                    case .three:
+                        CircleView(shading: card.attributes.shading, color: color)
                     }
                 }
+            }
+        }
+    }
+}
+
+struct RectangleView: View {
+    let shading: CardAttributeVariant
+    let color: Color
+    
+    var body: some View {
+        ZStack {
+            let shape = Rectangle()
+            
+            switch shading {
+                case .one:
+                    shape.fill().frame(width: 50, height: 20, alignment: .center)
+                    shape.strokeBorder(color, lineWidth: 3).frame(width: 50, height: 20, alignment: .center)
+                case .two:
+                    shape.fill().foregroundColor(color).opacity(0.2).frame(width: 50, height: 20, alignment: .center)
+                    shape.strokeBorder(color, lineWidth: 3).frame(width: 50, height: 20, alignment: .center)
+                case .three:
+                    shape.fill().foregroundColor(color).frame(width: 50, height: 20, alignment: .center)
+            }
+        }
+    }
+}
+
+struct CapsuleView: View {
+    let shading: CardAttributeVariant
+    let color: Color
+    
+    var body: some View {
+        ZStack {
+            let shape = Capsule()
+            switch shading {
+                case .one:
+                    shape.fill().frame(width: 50, height: 20, alignment: .center)
+                    shape.strokeBorder(color, lineWidth: 3).frame(width: 50, height: 20, alignment: .center)
+                case .two:
+                    shape.fill().foregroundColor(color).opacity(0.2).frame(width: 50, height: 20, alignment: .center)
+                    shape.strokeBorder(color, lineWidth: 3).frame(width: 50, height: 20, alignment: .center)
+                case .three:
+                    shape.fill().foregroundColor(color).frame(width: 50, height: 20, alignment: .center)
+            }
+        }
+    }
+}
+
+struct CircleView: View {
+    let shading: CardAttributeVariant
+    let color: Color
+    
+    var body: some View {
+        ZStack {
+            let shape = Circle()
+            switch shading {
+                case .one:
+                    shape.fill().frame(width: 20, height: 20, alignment: .center)
+                    shape.strokeBorder(color, lineWidth: 3).frame(width: 20, height: 20, alignment: .center)
+                case .two:
+                    shape.fill().foregroundColor(color).opacity(0.2).frame(width: 20, height: 20, alignment: .center)
+                    shape.strokeBorder(color, lineWidth: 3).frame(width: 20, height: 20, alignment: .center)
+                case .three:
+                    shape.fill().foregroundColor(color).frame(width: 20, height: 20, alignment: .center)
             }
         }
     }
@@ -81,5 +140,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = SetGameViewModel()
         SetGameView(game: game)
+//            .preferredColorScheme(.dark)
     }
 }
