@@ -8,7 +8,12 @@
 import Foundation
 
 struct SetGame {
-    private(set) var cards: Array<Card>
+    private var cards: Array<Card>
+    private(set) var numberOfDealedCards = 12
+    var dealedCards: Array<Card> {
+        Array(cards.filter { !$0.isMatched } [0..<numberOfDealedCards])
+    }
+    
     private var indicesOfSelectedCards = Array<Int>()
     
     init () {
@@ -24,7 +29,6 @@ struct SetGame {
                     // deselection of card already selected
                     indicesOfSelectedCards.remove(at: indicesOfSelectedCards.firstIndex(of: cards[choosenCardId].id)!)
                     cards[choosenCardId].isSelected = false
-                    return
                 }
                 // selection
                 cards[choosenCardId].isSelected = true
@@ -50,6 +54,10 @@ struct SetGame {
                 cards[choosenCardId].isSelected = true
             }
         }
+    }
+    
+    mutating func dealCards() {
+        numberOfDealedCards += 3
     }
         
     static func isSet(ofCards cards: Array<Card>) -> Bool {

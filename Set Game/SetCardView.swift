@@ -77,7 +77,7 @@ extension Shape {
 
 struct SetCardView_Previews: PreviewProvider {
     static var previews: some View {
-        let card = SetGame().cards[0]
+        let card = SetGame().dealedCards[0]
         SetCardView(card: card)
     }
 }

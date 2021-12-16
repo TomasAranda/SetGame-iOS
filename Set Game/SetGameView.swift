@@ -12,18 +12,22 @@ struct SetGameView: View {
     
     var body: some View {
         VStack{
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 70, maximum: 70))], spacing: 5) {
-                    ForEach(game.cards) { card in
-                        SetCardView(card: card).onTapGesture {
-                            game.choose(card)
-                        }
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 70, maximum: 70))], spacing: 5) {
+                ForEach(game.cards) { card in
+                    SetCardView(card: card).onTapGesture {
+                        game.choose(card)
                     }
                 }
             }
             Spacer()
-            Button { game.newGame() } label: {
-                Text("New Game")
+            HStack {
+                Button { game.dealCards() } label: {
+                    Text("Deal 3 More Cards")
+                }
+                Spacer()
+                Button { game.newGame() } label: {
+                    Text("New Game")
+                }
             }
         }
     }

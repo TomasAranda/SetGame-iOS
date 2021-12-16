@@ -13,7 +13,7 @@ class SetGameViewModel: ObservableObject {
     @Published private var model = SetGame()
     
     var cards: Array<Card> {
-        model.cards
+        model.dealedCards
     }
     
     // MARK: Intents
@@ -21,7 +21,12 @@ class SetGameViewModel: ObservableObject {
         model.choose(card)
     }
     
+    func dealCards() {
+        model.dealCards()
+    }
+    
     func newGame() {
         model = SetGame()
     }
+    
 }
