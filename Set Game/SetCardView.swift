@@ -21,17 +21,17 @@ struct SetCardView: View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: 10.0).frame(width: 70, height: 100, alignment: .center)
             if card.isSelected {
-                shape.foregroundColor(.blue).opacity(0.7)
+                shape.foregroundColor(.blue).opacity(0.5)
             } else {
                 shape.opacity(0.2)
             }
             if card.isMatched {
-                shape.foregroundColor(Color(red: 0.0, green: 1.0, blue: 0.0, opacity: 0.3))
+                shape.foregroundColor(.green).opacity(0.3)
             }
             
             VStack {
                 ForEach(0..<card.attributes.number.rawValue) { _ in
-                    cardShape()
+                    cardShape().frame(width: 50, height: 20, alignment: .center)
                 }
             }
         }
@@ -57,20 +57,21 @@ struct SetCardView: View {
 
 extension Shape {
     func solid(color: Color) -> some View {
-        self.fill().foregroundColor(color).frame(width: 50, height: 20, alignment: .center)
+        self.fill().foregroundColor(color)
     }
     
     func open(color: Color) -> some View {
         ZStack{
-            self.fill().foregroundColor(.white).frame(width: 50, height: 20, alignment: .center)
-            self.stroke(color, lineWidth: 3).frame(width: 50, height: 20, alignment: .center)
+            self.fill().foregroundColor(.white)
+            self.stroke(color, lineWidth: 3)
         }
     }
 
+    // TODO: implement striped viewModifier
     func striped(color: Color) -> some View {
         ZStack {
-            self.fill().foregroundColor(color).opacity(0.2).frame(width: 50, height: 20, alignment: .center)
-            self.stroke(color, lineWidth: 3).frame(width: 50, height: 20, alignment: .center)
+            self.fill().foregroundColor(color).opacity(0.2)
+            self.stroke(color, lineWidth: 3)
         }
     }
 }

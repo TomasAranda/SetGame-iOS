@@ -16,6 +16,10 @@ class SetGameViewModel: ObservableObject {
         model.dealedCards
     }
     
+    var numberOfDealedCards: Int {
+        model.numberOfDealedCards
+    }
+    
     // MARK: Intents
     func choose(_ card: Card) {
         model.choose(card)
@@ -28,5 +32,4 @@ class SetGameViewModel: ObservableObject {
     func newGame() {
         model = SetGame()
     }
-    
 }

@@ -14,17 +14,23 @@ struct SetGameView: View {
         VStack{
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 70, maximum: 70))], spacing: 5) {
                 ForEach(game.cards) { card in
-                    SetCardView(card: card).onTapGesture {
-                        game.choose(card)
+                    if card.isMatched && game.numberOfDealedCards == 81 {
+                        RoundedRectangle(cornerRadius: 10.0).frame(width: 70, height: 100, alignment: .center).foregroundColor(Color(UIColor.systemBackground))
+                    } else {
+                        SetCardView(card: card).onTapGesture {
+                            game.choose(card)
+                        }
                     }
                 }
             }
             Spacer()
             HStack {
-                Button { game.dealCards() } label: {
-                    Text("Deal 3 More Cards")
+                if game.numberOfDealedCards < 81 {
+                    Button { game.dealCards() } label: {
+                        Text("Deal 3 More Cards")
+                    }
+                    Spacer()                    
                 }
-                Spacer()
                 Button { game.newGame() } label: {
                     Text("New Game")
                 }
@@ -34,9 +40,16 @@ struct SetGameView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+    
     static var previews: some View {
         let game = SetGameViewModel()
-        SetGameView(game: game)
+        for _ in 0..<7 {
+            game.cards.forEach {
+                game.choose($0)
+            }
+        }
+        
+        return SetGameView(game: game)
             .preferredColorScheme(.dark)
     }
 }

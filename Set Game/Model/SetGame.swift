@@ -8,56 +8,78 @@
 import Foundation
 
 struct SetGame {
-    private var cards: Array<Card>
-    private(set) var numberOfDealedCards = 12
-    var dealedCards: Array<Card> {
-        Array(cards.filter { !$0.isMatched } [0..<numberOfDealedCards])
-    }
+    static let initialDealedCards = 12
     
-    private var indicesOfSelectedCards = Array<Int>()
+    private let deck: Array<Card>
+    private(set) var numberOfDealedCards = initialDealedCards
+    private(set) var dealedCards: Array<Card>
+    
+    private var idsOfSelectedCards = Array<Int>()
+    private var thereAreMatchedCards: Bool { dealedCards.contains { $0.isMatched } }
     
     init () {
-        self.cards = SetGame.generateCardDeck()
+        self.deck = SetGame.generateCardDeck()
+        self.dealedCards = Array(deck[0..<numberOfDealedCards])
     }
     
     // select card
     mutating func choose(_ card: Card) {
-        if let choosenCardId = cards.firstIndex(where: { $0.id == card.id }),
-           !cards[choosenCardId].isMatched {
-            if indicesOfSelectedCards.count < 3 {
-                if cards[choosenCardId].isSelected {
+        if let choosenIndex = dealedCards.firstIndex(where: { $0.id == card.id }),
+           !dealedCards[choosenIndex].isMatched {
+            if idsOfSelectedCards.count < 3 {
+                if dealedCards[choosenIndex].isSelected {
                     // deselection of card already selected
-                    indicesOfSelectedCards.remove(at: indicesOfSelectedCards.firstIndex(of: cards[choosenCardId].id)!)
-                    cards[choosenCardId].isSelected = false
+                    idsOfSelectedCards.remove(at: idsOfSelectedCards.firstIndex(of: dealedCards[choosenIndex].id)!)
+                    dealedCards[choosenIndex].isSelected = false
+                    return
                 }
                 // selection
-                cards[choosenCardId].isSelected = true
-                indicesOfSelectedCards.append(cards[choosenCardId].id)
-                if indicesOfSelectedCards.count == 3 {
+                dealedCards[choosenIndex].isSelected = true
+                idsOfSelectedCards.append(dealedCards[choosenIndex].id)
+                if idsOfSelectedCards.count == 3 {
                     // matching check
-                    let arrayOfSelectedCards = cards.filter { indicesOfSelectedCards.contains($0.id) }
+                    let arrayOfSelectedCards = dealedCards.filter { idsOfSelectedCards.contains($0.id) }
                     if SetGame.isSet(ofCards: arrayOfSelectedCards) {
-                        cards.indices.forEach {
-                            if !cards[$0].isMatched {
-                                cards[$0].isMatched = indicesOfSelectedCards.contains(cards[$0].id)
+                        dealedCards.indices.forEach {
+                            if idsOfSelectedCards.contains(dealedCards[$0].id) {
+                                dealedCards[$0].isMatched = true
+                                dealedCards[$0].isSelected = false
                             }
                         }
-                        cards.indices.forEach { cards[$0].isSelected = false }
-                        indicesOfSelectedCards.removeAll()
                     }
                 }
-            } else if !indicesOfSelectedCards.contains(choosenCardId + 1) {
-                // cards.count == 3 && isSet(arrayOfSelectedCards) == false
-                cards.indices.forEach { cards[$0].isSelected = false }
-                indicesOfSelectedCards.removeAll()
-                indicesOfSelectedCards.append(cards[choosenCardId].id)
-                cards[choosenCardId].isSelected = true
+            } else if !idsOfSelectedCards.contains(dealedCards[choosenIndex].id) {
+                // idsOfSelectedCards.count == 3
+                if numberOfDealedCards < deck.count {
+                    dealCards()
+                }
+//                else {
+//                    dealedCards = dealedCards.filter {
+//                        !$0.isMatched
+//                    }
+//                }
+                dealedCards.indices.forEach { dealedCards[$0].isSelected = false }
+                idsOfSelectedCards.removeAll()
+                idsOfSelectedCards.append(dealedCards[choosenIndex].id)
+                dealedCards[choosenIndex].isSelected = true
             }
         }
     }
     
     mutating func dealCards() {
-        numberOfDealedCards += 3
+        let numberOfCardsToDeal = 3
+        
+        if thereAreMatchedCards {
+            dealedCards.indices.forEach {
+                if dealedCards[$0].isMatched {
+                    dealedCards[$0] = deck[numberOfDealedCards]
+                    numberOfDealedCards += 1
+                }
+            }
+        } else {
+            dealedCards.append(contentsOf: deck[numberOfDealedCards..<numberOfDealedCards+numberOfCardsToDeal])
+            numberOfDealedCards += numberOfCardsToDeal
+        }
     }
         
     static func isSet(ofCards cards: Array<Card>) -> Bool {
@@ -83,13 +105,13 @@ struct SetGame {
         
         var isSelected = false
         var isMatched = false
-    }
-
-    struct CardAttributes {
-        let number: CardAttributeVariant
-        let shape: CardAttributeVariant
-        let color: CardAttributeVariant
-        let shading: CardAttributeVariant
+    
+        struct CardAttributes {
+            let number: CardAttributeVariant
+            let shape: CardAttributeVariant
+            let color: CardAttributeVariant
+            let shading: CardAttributeVariant
+        }
     }
 }
 
@@ -105,7 +127,7 @@ extension SetGame {
                         incrementalId += 1
                         deck.append(Card(
                             id: incrementalId,
-                            attributes: CardAttributes(
+                            attributes: Card.CardAttributes(
                                 number: number,
                                 shape: shape,
                                 color: color,
@@ -117,8 +139,8 @@ extension SetGame {
             }
         }
         
-        return deck.shuffled()
-//        return deck
+//        return deck.shuffled()
+        return deck
     }
 }
 
@@ -126,7 +148,7 @@ enum CardAttributeVariant: Int, CaseIterable {
     case one = 1, two, three
 }
 
-extension SetGame.CardAttributes {
+extension SetGame.Card.CardAttributes {
     func toArrayOfRawValues() -> [Int] {
         return [
             self.number.rawValue,
