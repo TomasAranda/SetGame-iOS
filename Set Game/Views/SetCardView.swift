@@ -19,7 +19,7 @@ struct SetCardView: View {
     
     var body: some View {
         ZStack {
-            let shape = RoundedRectangle(cornerRadius: 10.0).frame(width: 70, height: 100, alignment: .center)
+            let shape = RoundedRectangle(cornerRadius: 8.0)
             if card.isSelected {
                 shape.foregroundColor(.blue).opacity(0.5)
             } else {
@@ -29,10 +29,16 @@ struct SetCardView: View {
                 shape.foregroundColor(.green).opacity(0.3)
             }
             
-            VStack {
-                ForEach(0..<card.attributes.number.rawValue) { _ in
-                    cardShape().frame(width: 50, height: 20, alignment: .center)
-                }
+            GeometryReader { geometry in
+                VStack(alignment: .center) {
+                    ForEach(0..<card.attributes.number.rawValue) { _ in
+                        cardShape()
+                            .frame(width: geometry.size.width * 0.8,
+                                   height: geometry.size.height * 0.2,
+                                   alignment: .center)
+                    }
+                }.padding(40.0)
+                .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
             }
         }
     }
