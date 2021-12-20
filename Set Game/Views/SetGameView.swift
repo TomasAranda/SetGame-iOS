@@ -12,17 +12,9 @@ struct SetGameView: View {
     
     var body: some View {
         VStack{
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 70, maximum: 70))], spacing: 5) {
-                ForEach(game.cards) { card in
-                    if card.isMatched && game.numberOfDealedCards == 81 {
-                        RoundedRectangle(cornerRadius: 10.0).frame(width: 70, height: 100, alignment: .center).foregroundColor(Color(UIColor.systemBackground))
-                    } else {
-                        SetCardView(card: card).onTapGesture {
-                            game.choose(card)
-                        }
-                    }
-                }
-            }
+            AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
+                cardView(for: card)
+            }.padding(5)
             Spacer()
             HStack {
                 if game.numberOfDealedCards < 81 {
@@ -34,7 +26,18 @@ struct SetGameView: View {
                 Button { game.newGame() } label: {
                     Text("New Game")
                 }
-            }
+            }.padding(.horizontal, 20)
+        }
+    }
+    
+    @ViewBuilder
+    private func cardView(for card: SetGame.Card) -> some View {
+        if card.isMatched && game.numberOfDealedCards == 81 {
+            Rectangle().opacity(0)
+        } else {
+            SetCardView(card: card)
+                .padding(3)
+                .onTapGesture { game.choose(card) }
         }
     }
 }
@@ -43,11 +46,11 @@ struct ContentView_Previews: PreviewProvider {
     
     static var previews: some View {
         let game = SetGameViewModel()
-        for _ in 0..<7 {
-            game.cards.forEach {
-                game.choose($0)
-            }
-        }
+//        for _ in 0..<7 {
+//            game.cards.forEach {
+//                game.choose($0)
+//            }
+//        }
         
         return SetGameView(game: game)
             .preferredColorScheme(.dark)

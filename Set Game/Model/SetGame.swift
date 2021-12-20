@@ -22,24 +22,24 @@ struct SetGame {
         self.dealedCards = Array(deck[0..<numberOfDealedCards])
     }
     
-    // select card
+    // -- select card --
     mutating func choose(_ card: Card) {
         if let choosenIndex = dealedCards.firstIndex(where: { $0.id == card.id }),
            !dealedCards[choosenIndex].isMatched {
             if idsOfSelectedCards.count < 3 {
                 if dealedCards[choosenIndex].isSelected {
-                    // deselection of card already selected
+                    // -- deselection of card already selected --
                     idsOfSelectedCards.remove(at: idsOfSelectedCards.firstIndex(of: dealedCards[choosenIndex].id)!)
                     dealedCards[choosenIndex].isSelected = false
                     return
                 }
-                // selection
+                // -- selection --
                 dealedCards[choosenIndex].isSelected = true
                 idsOfSelectedCards.append(dealedCards[choosenIndex].id)
                 if idsOfSelectedCards.count == 3 {
-                    // matching check
+                    // -- matching check --
                     let arrayOfSelectedCards = dealedCards.filter { idsOfSelectedCards.contains($0.id) }
-                    if SetGame.isSet(ofCards: arrayOfSelectedCards) {
+                    if SetGame.isSet(of: arrayOfSelectedCards) {
                         dealedCards.indices.forEach {
                             if idsOfSelectedCards.contains(dealedCards[$0].id) {
                                 dealedCards[$0].isMatched = true
@@ -48,11 +48,12 @@ struct SetGame {
                         }
                     }
                 }
-            } else if !idsOfSelectedCards.contains(dealedCards[choosenIndex].id) {
-                // idsOfSelectedCards.count == 3
-                if numberOfDealedCards < deck.count {
+            } else {
+                // -- idsOfSelectedCards.count will be 3 --
+                if numberOfDealedCards < deck.count && thereAreMatchedCards {
                     dealCards()
                 }
+//                DELETE Matching Cards
 //                else {
 //                    dealedCards = dealedCards.filter {
 //                        !$0.isMatched
@@ -67,6 +68,7 @@ struct SetGame {
     }
     
     mutating func dealCards() {
+        guard numberOfDealedCards < deck.count else { return }
         let numberOfCardsToDeal = 3
         
         if thereAreMatchedCards {
@@ -82,10 +84,8 @@ struct SetGame {
         }
     }
         
-    static func isSet(ofCards cards: Array<Card>) -> Bool {
-        guard cards.count == 3 else {
-            return false
-        }
+    static func isSet(of cards: Array<Card>) -> Bool {
+        guard cards.count == 3 else { return false }
         
         let sumOfRawValues = cards.reduce(into: [0, 0, 0, 0], { sum, card in
             let rawValues = card.attributes.toArrayOfRawValues()
@@ -139,8 +139,8 @@ extension SetGame {
             }
         }
         
-//        return deck.shuffled()
-        return deck
+        return deck.shuffled()
+//        return deck
     }
 }
 
