@@ -31,7 +31,7 @@ struct SetCardView: View {
             
             GeometryReader { geometry in
                 VStack(alignment: .center) {
-                    ForEach(0..<card.attributes.number.rawValue) { _ in
+                    ForEach(0..<card.attributes.number.rawValue, id: \.self) { _ in
                         cardShape()
                             .frame(width: geometry.size.width * 0.8,
                                    height: geometry.size.height * 0.2,
@@ -76,7 +76,7 @@ extension Shape {
     func striped(color: Color) -> some View {
         ZStack {
             HStack(spacing: 0) {
-                ForEach(0..<5) { number in
+                ForEach(0..<5, id: \.self) { number in
                     Spacer(minLength: 0)
                     color.frame(width: 2)
                 }
