@@ -62,9 +62,6 @@ struct AspectVGrid<Item, ItemView> : View where Item: Identifiable, ItemView: Vi
     }
 }
 
-
-
-// TODO: Make preview with test data (we don't did this in demo due to time constraints)
 struct AspectVGrid_Previews: PreviewProvider {
     static var previews: some View {
         var game = SetGame()

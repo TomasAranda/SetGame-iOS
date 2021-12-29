@@ -84,7 +84,7 @@ struct SetGame {
         }
     }
         
-    static func isSet(of cards: Array<Card>) -> Bool {
+    private static func isSet(of cards: Array<Card>) -> Bool {
         guard cards.count == 3 else { return false }
         
         let sumOfRawValues = cards.reduce(into: [0, 0, 0, 0], { sum, card in

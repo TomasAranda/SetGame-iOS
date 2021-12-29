@@ -23,7 +23,6 @@ struct Squiggle: Shape {
 
         path.move(to: startingPoint)
         path.addCurve(to: firstPoint, control1: curve1controlPoint1, control2: curve1controlPoint2)
-//        path.addCurve(to: secondPoint, control1: curve2controlPoint1, control2: curve2controlPoint2)
         path.addCurve(to: secondPoint, control1: curve2controlPoint1, control2: curve2controlPoint2)
 
         var lowerCurve = path
@@ -41,7 +40,6 @@ struct Squiggle: Shape {
 struct Squiggle_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-//            Rectangle().stroke()
             Squiggle()
         }
         .frame(width: 350, height: 200, alignment: .center)

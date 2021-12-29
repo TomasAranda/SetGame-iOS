@@ -46,14 +46,6 @@ struct ContentView_Previews: PreviewProvider {
     
     static var previews: some View {
         let game = SetGameViewModel()
-//        for _ in 0..<23 {
-//            game.dealCards()
-//        }
-//        for _ in 0..<7 {
-//            game.cards.forEach {
-//                game.choose($0)
-//            }
-//        }
         
         return SetGameView(game: game)
 //            .preferredColorScheme(.dark)

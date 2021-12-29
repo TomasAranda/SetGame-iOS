@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SetCardView: View {
     let card: SetGame.Card
-    var color: Color {
+    private var color: Color {
         switch card.attributes.color {
             case .one: return Color.purple
             case .two: return Color.red
@@ -43,7 +43,8 @@ struct SetCardView: View {
         }
     }
     
-    @ViewBuilder func cardShape() -> some View {
+    @ViewBuilder
+    private func cardShape() -> some View {
         switch card.attributes.shape {
             case .one: fillShading(shape: Capsule())
             case .two: fillShading(shape: Squiggle())
@@ -51,7 +52,8 @@ struct SetCardView: View {
         }
     }
     
-    @ViewBuilder func fillShading<setShape>(shape: setShape) -> some View where setShape: Shape {
+    @ViewBuilder
+    private func fillShading<setShape>(shape: setShape) -> some View where setShape: Shape {
         switch card.attributes.shading {
             case .one: shape.solid(color: color)
             case .two: shape.striped(color: color)
