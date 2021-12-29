@@ -71,10 +71,14 @@ extension Shape {
         }
     }
 
-    // TODO: implement striped viewModifier
     func striped(color: Color) -> some View {
         ZStack {
-            self.fill().foregroundColor(color).opacity(0.25)
+            HStack(spacing: 0) {
+                ForEach(0..<5) { number in
+                    Spacer(minLength: 0)
+                    color.frame(width: 2)
+                }
+            }.mask(self)
             self.stroke(color, lineWidth: 3)
         }
     }
