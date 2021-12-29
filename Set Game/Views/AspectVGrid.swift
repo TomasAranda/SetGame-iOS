@@ -28,7 +28,6 @@ struct AspectVGrid<Item, ItemView> : View where Item: Identifiable, ItemView: Vi
                         content(item).aspectRatio(aspectRatio, contentMode: .fit)
                     }
                 }
-//                Spacer(minLength: 0)
             }
         }
     }

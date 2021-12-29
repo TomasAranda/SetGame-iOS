@@ -12,7 +12,7 @@ struct SetGameView: View {
     
     var body: some View {
         VStack{
-            AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
+            AspectVGrid(items: game.cards, aspectRatio: 4/7) { card in
                 cardView(for: card)
             }.padding(5)
             Spacer()
@@ -46,6 +46,9 @@ struct ContentView_Previews: PreviewProvider {
     
     static var previews: some View {
         let game = SetGameViewModel()
+//        for _ in 0..<23 {
+//            game.dealCards()
+//        }
 //        for _ in 0..<7 {
 //            game.cards.forEach {
 //                game.choose($0)
@@ -53,6 +56,6 @@ struct ContentView_Previews: PreviewProvider {
 //        }
         
         return SetGameView(game: game)
-            .preferredColorScheme(.dark)
+//            .preferredColorScheme(.dark)
     }
 }

@@ -2,7 +2,7 @@
 //  SetCardView.swift
 //  Set Game
 //
-//  Created by Roberto Aranda on 16/12/2021.
+//  Created by Tomás Aranda on 16/12/2021.
 //
 
 import SwiftUI
@@ -11,9 +11,9 @@ struct SetCardView: View {
     let card: SetGame.Card
     var color: Color {
         switch card.attributes.color {
-        case .one: return Color.purple
-        case .two: return Color.red
-        case .three: return Color.green
+            case .one: return Color.purple
+            case .two: return Color.red
+            case .three: return Color.green
         }
     }
     
@@ -45,10 +45,9 @@ struct SetCardView: View {
     
     @ViewBuilder func cardShape() -> some View {
         switch card.attributes.shape {
-            case .one: fillShading(shape: Capsule()) // Oval
-        // TODO: Make Diamond and Squiggle shapes
-            case .two: fillShading(shape: Circle()) // Squiggle
-            case .three: fillShading(shape: Rectangle()) // Diamond
+            case .one: fillShading(shape: Capsule())
+            case .two: fillShading(shape: Squiggle())
+            case .three: fillShading(shape: Diamond())
         }
     }
     
@@ -68,7 +67,6 @@ extension Shape {
     
     func open(color: Color) -> some View {
         ZStack{
-            self.fill().foregroundColor(.white)
             self.stroke(color, lineWidth: 3)
         }
     }
@@ -76,7 +74,7 @@ extension Shape {
     // TODO: implement striped viewModifier
     func striped(color: Color) -> some View {
         ZStack {
-            self.fill().foregroundColor(color).opacity(0.2)
+            self.fill().foregroundColor(color).opacity(0.25)
             self.stroke(color, lineWidth: 3)
         }
     }
