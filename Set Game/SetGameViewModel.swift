@@ -12,8 +12,16 @@ class SetGameViewModel: ObservableObject {
     
     @Published private var model = SetGame()
     
-    var cards: Array<Card> {
+    var deck: Array<Card> {
+        model.deck
+    }
+    
+    var dealedCards: Array<Card> {
         model.dealedCards
+    }
+    
+    var matchedCards: Array<Card> {
+        model.dealedCards.filter({ $0.isMatched })
     }
     
     var numberOfDealedCards: Int {

@@ -10,8 +10,8 @@ import Foundation
 struct SetGame {
     static let initialDealedCards = 12
     
-    private let deck: Array<Card>
-    private(set) var numberOfDealedCards = initialDealedCards
+    let deck: Array<Card>
+    private(set) var numberOfDealedCards = 0
     private(set) var dealedCards: Array<Card>
     
     private var idsOfSelectedCards = Array<Int>()
@@ -19,7 +19,7 @@ struct SetGame {
     
     init () {
         self.deck = SetGame.generateCardDeck()
-        self.dealedCards = Array(deck[0..<numberOfDealedCards])
+        self.dealedCards = Array()
     }
     
     // -- select card --
@@ -53,12 +53,6 @@ struct SetGame {
                 if numberOfDealedCards < deck.count && thereAreMatchedCards {
                     dealCards()
                 }
-//                DELETE Matching Cards
-//                else {
-//                    dealedCards = dealedCards.filter {
-//                        !$0.isMatched
-//                    }
-//                }
                 dealedCards.indices.forEach { dealedCards[$0].isSelected = false }
                 idsOfSelectedCards.removeAll()
                 idsOfSelectedCards.append(dealedCards[choosenIndex].id)
@@ -69,7 +63,7 @@ struct SetGame {
     
     mutating func dealCards() {
         guard numberOfDealedCards < deck.count else { return }
-        let numberOfCardsToDeal = 3
+        let numberOfCardsToDeal = dealedCards.count > 0 ? 3 : SetGame.initialDealedCards
         
         if thereAreMatchedCards {
             dealedCards.indices.forEach {
@@ -140,7 +134,6 @@ extension SetGame {
         }
         
         return deck.shuffled()
-//        return deck
     }
 }
 
