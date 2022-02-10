@@ -28,6 +28,14 @@ class SetGameViewModel: ObservableObject {
         model.numberOfDealedCards
     }
     
+    var selectedCards: Array<Card> {
+        model.dealedCards.filter({ $0.isSelected })
+    }
+    
+    var thereAreMatchingCards: Bool {
+        model.thereAreMatchedCards
+    }
+    
     // MARK: Intents
     func choose(_ card: Card) {
         model.choose(card)

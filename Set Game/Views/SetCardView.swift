@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SetCardView: View {
     let card: SetGame.Card
+    var isMismatched: Bool
+    
     private var color: Color {
         switch card.attributes.color {
             case .one: return Color.purple
@@ -20,8 +22,13 @@ struct SetCardView: View {
     var body: some View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: 8.0)
+            Color(UIColor.systemBackground).clipShape(shape)
             if card.isSelected {
-                shape.foregroundColor(.blue).opacity(0.5)
+                if isMismatched {
+                    shape.foregroundColor(.red).opacity(0.5)
+                } else {
+                    shape.foregroundColor(.blue).opacity(0.5)
+                }
             } else {
                 shape.opacity(0.2)
             }
@@ -89,6 +96,6 @@ extension Shape {
 struct SetCardView_Previews: PreviewProvider {
     static var previews: some View {
         let card = SetGame().dealedCards[0]
-        SetCardView(card: card)
+        SetCardView(card: card, isMismatched: true)
     }
 }

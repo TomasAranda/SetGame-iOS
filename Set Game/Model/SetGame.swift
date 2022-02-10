@@ -10,12 +10,12 @@ import Foundation
 struct SetGame {
     static let initialDealedCards = 12
     
-    let deck: Array<Card>
+    private(set) var deck: Array<Card>
     private(set) var numberOfDealedCards = 0
     private(set) var dealedCards: Array<Card>
     
-    private var idsOfSelectedCards = Array<Int>()
-    private var thereAreMatchedCards: Bool { dealedCards.contains { $0.isMatched } }
+    private(set) var idsOfSelectedCards = Array<Int>()
+    var thereAreMatchedCards: Bool { dealedCards.contains { $0.isMatched } }
     
     init () {
         self.deck = SetGame.generateCardDeck()

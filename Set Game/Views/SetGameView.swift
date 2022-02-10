@@ -22,7 +22,7 @@ struct SetGameView: View {
             HStack{
                 deck
                 Spacer()
-                matchedCards
+                discardedCards
             }
             .padding(.horizontal, 30)
             .padding(.bottom, 40)
@@ -30,19 +30,18 @@ struct SetGameView: View {
     }
     
     private func isUndealt(_ card: SetGame.Card) -> Bool {
-        game.dealedCards.first(where: {$0.id == card.id}) != nil
+        game.dealedCards.first(where: {$0.id == card.id}) == nil
     }
     
     private var dealedCards: some View {
         AspectVGrid(items: game.dealedCards, aspectRatio: 4/7) { card in
-            if card.isMatched {
+            if isUndealt(card) || card.isMatched {
                 Color.clear
             } else {
-                SetCardView(card: card)
+                SetCardView(card: card, isMismatched: isMismatched(card))
                     .animation(dealAnimation(for: card))
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                     .transition(.asymmetric(insertion: .identity, removal: .opacity))
-                    .zIndex(zIndex(of: card))
                     .padding(3)
                     .onTapGesture {
                         var transaction = Transaction(animation: .easeInOut(duration: 0.5))
@@ -70,20 +69,19 @@ struct SetGameView: View {
         return Animation.easeInOut(duration: 0.5).delay(delay)
     }
     
-    private func zIndex(of card: SetGame.Card) -> Double {
-        -Double(game.deck.firstIndex(where: { $0.id == card.id }) ?? 0)
+    private func isMismatched(_ card: SetGame.Card) -> Bool {
+        game.selectedCards.count == 3 && !card.isMatched
     }
     
     private var deck: some View {
         ZStack {
-            ForEach(game.deck) {card in
-                if isUndealt(card) {
-                    Color.clear
-                } else {
-                    SetCardView(card: card)
+            ForEach(game.deck.filter({!$0.isMatched})) {card in
+                if isUndealt(card) || card.isMatched {
+//                    Color.clear
+//                } else {
+                    SetCardView(card: card, isMismatched: isMismatched(card))
                         .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                         .transition(.asymmetric(insertion: .opacity, removal: .identity))
-                        .zIndex(zIndex(of: card))
                 }
             }
             if(game.numberOfDealedCards != 81) {
@@ -100,16 +98,12 @@ struct SetGameView: View {
         .frame(width: 40, height: 70)
     }
     
-    private var matchedCards: some View {
+    private var discardedCards: some View {
         ZStack {
             ForEach(game.matchedCards) {card in
-                if !card.isMatched {
-                    Color.clear
-                } else {
-                    SetCardView(card: card)
-                        .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                        .transition(.asymmetric(insertion: .opacity, removal: .identity))
-                }
+                SetCardView(card: card, isMismatched: false)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(.asymmetric(insertion: .opacity, removal: .identity))
             }
         }
         .frame(width: 40, height: 70)
