@@ -2,12 +2,15 @@
 
 This is a Set Game application made with SwiftUI.
 
-It is my solution of a [CS139P](https://cs193p.sites.stanford.edu) course's [Programming Assignment](https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/assignment_3_0.pdf), in which it was sought to make an application from scratch.
+It is my solution of a [CS139P](https://cs193p.sites.stanford.edu) course's Programming Assignments [3](https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/assignment_3_0.pdf) and [4](https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/assignment_4_0.pdf), in which it was sought to make an application from scratch.
+
+![ezgif com-video-to-gif](https://user-images.githubusercontent.com/55998376/155799699-17512d12-b93d-4abc-88dc-856c447bfe33.gif)
 
 For this assignment it was intended to implement concepts like:
 * MVVM architecture
 * SwiftUI's custom Shapes, GeometryReader and ViewBuilder
 * Swift's closures and enums.
+* SwiftUI's Animations (with matchedGeometryEffect)
 
 ## Game Rules
 The goal of the game is to find collections of cards satisfying the following rule.
