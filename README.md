@@ -5,6 +5,7 @@ This is a Set Game application made with SwiftUI.
 It is my solution of a [CS139P](https://cs193p.sites.stanford.edu) course's Programming Assignments [3](https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/assignment_3_0.pdf) and [4](https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/assignment_4_0.pdf), in which it was sought to make an application from scratch.
 
 Demostration of SetGame running on simulator (both on dark and light mode):
+
 ![Screen recording of SetGame running on simulator](https://user-images.githubusercontent.com/55998376/156930558-aee4163b-62f5-40f0-a44b-7f509f9d980d.gif)
 
 For this assignment it was intended to implement concepts like:
