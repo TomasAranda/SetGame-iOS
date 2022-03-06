@@ -15,77 +15,34 @@ struct SetGameView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack {
-                dealedCards
+                dealedCardsView
                 Spacer()
                 newGameButton
             }
             HStack{
                 deck
                 Spacer()
-                discardedCards
+                discardPile
             }
             .padding(.horizontal, 30)
-            .padding(.bottom, 40)
-        }
+        }.padding(.bottom, 10)
     }
     
-    private func isUndealt(_ card: SetGame.Card) -> Bool {
-        game.dealedCards.first(where: {$0.id == card.id}) == nil
-    }
-    
-    private var dealedCards: some View {
-        AspectVGrid(items: game.dealedCards, aspectRatio: 4/7) { card in
-            if isUndealt(card) || card.isMatched {
-                Color.clear
-            } else {
-                SetCardView(card: card, isMismatched: isMismatched(card))
-                    .animation(dealAnimation(for: card))
-                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                    .transition(.asymmetric(insertion: .identity, removal: .opacity))
-                    .padding(3)
-                    .onTapGesture {
-                        var transaction = Transaction(animation: .easeInOut(duration: 0.5))
-                        transaction.disablesAnimations = true
-                        withAnimation {
-                            withTransaction(transaction) {
-                                game.choose(card)
-                            }
-                        }
-                    }
-            }
-        }.padding(5)
-        
-    }
-
-    private func dealAnimation(for card: SetGame.Card) -> Animation {
-        var delay = 0.0
-        if let index = game.deck.firstIndex(where: { $0.id == card.id }) {
-            if(index < 12) {
-                delay = Double(index) * (1.0 / 12.0)
-            } else {
-                delay = Double((index % 3) + 1) * (0.5 / 3.0)
-            }
-        }
-        return Animation.easeInOut(duration: 0.5).delay(delay)
-    }
-    
-    private func isMismatched(_ card: SetGame.Card) -> Bool {
-        game.selectedCards.count == 3 && !card.isMatched
-    }
+    // MARK: -Deck
     
     private var deck: some View {
         ZStack {
-            ForEach(game.deck.filter({!$0.isMatched})) {card in
-                if isUndealt(card) || card.isMatched {
-//                    Color.clear
-//                } else {
-                    SetCardView(card: card, isMismatched: isMismatched(card))
-                        .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                        .transition(.asymmetric(insertion: .opacity, removal: .identity))
-                }
+            ForEach(game.deck) {card in
+                let index = game.deck.firstIndex(where: { $0.id == card.id })!
+                SetCardView(card: card, isMismatched: isMismatched(card))
+                    .animation(.setGameDealAnimation(for: index))
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace, isSource: !game.dealedCards.contains { $0.id == card.id } &&
+                        !game.matchedCards.contains { $0.id == card.id }
+                    )
             }
-            if(game.numberOfDealedCards != 81) {
+            if(game.deck.count != 0) {
                 RoundedRectangle(cornerRadius: 8.0)
+                    .transition(.identity)
                     .foregroundColor(.blue)
                     .onTapGesture {
                         withAnimation {
@@ -97,14 +54,49 @@ struct SetGameView: View {
         }
         .frame(width: 40, height: 70)
     }
+
+    // MARK: -Dealed Cards
     
-    private var discardedCards: some View {
+    private var dealedCardsView: some View {
+        AspectVGrid(items: game.dealedCards, aspectRatio: 4/7) { card in
+            let index = game.dealedCards.firstIndex(where: { $0.id == card.id })!
+            SetCardView(card: card, isMismatched: isMismatched(card))
+                .animation(.setGameDealAnimation(for: index))
+                .matchedGeometryEffect(id: card.id, in: dealingNamespace, isSource:
+                    !game.deck.contains { $0.id == card.id } &&
+                    !game.matchedCards.contains { $0.id == card.id }
+                )
+                .padding(3)
+                .onTapGesture {
+                    var transaction = Transaction(animation: .easeInOut(duration: 0.5))
+                    transaction.disablesAnimations = true
+                    withAnimation {
+                        withTransaction(transaction) {
+                            game.choose(card)
+                        }
+                    }
+                }
+        }.padding(5)
+    }
+    
+    private func isMismatched(_ card: SetGame.Card) -> Bool {
+        game.selectedCards.count == 3 && !card.isMatched
+    }
+    
+    // MARK: -Discarded cards
+    
+    private var discardPile: some View {
         ZStack {
             ForEach(game.matchedCards) {card in
+                let index = game.matchedCards.firstIndex(where: { $0.id == card.id })!
                 SetCardView(card: card, isMismatched: false)
-                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                    .transition(.asymmetric(insertion: .opacity, removal: .identity))
+                    .animation(.setGameDealAnimation(for: index))
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace, isSource:
+                                !game.dealedCards.contains { $0.id == card.id } &&
+                                !game.deck.contains { $0.id == card.id }
+                    )
             }
+            Color.clear
         }
         .frame(width: 40, height: 70)
     }
@@ -124,8 +116,8 @@ struct ContentView_Previews: PreviewProvider {
     
     static var previews: some View {
         let game = SetGameViewModel()
+        game.dealCards()
         
         return SetGameView(game: game)
-//            .preferredColorScheme(.dark)
     }
 }

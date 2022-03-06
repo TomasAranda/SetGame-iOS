@@ -17,6 +17,7 @@
 		C6484D482770BBE0000564F5 /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6484D472770BBE0000564F5 /* AspectVGrid.swift */; };
 		C6484D4A2773705A000564F5 /* Diamond.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6484D492773705A000564F5 /* Diamond.swift */; };
 		C6484D4C2773723C000564F5 /* Squiggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6484D4B2773723C000564F5 /* Squiggle.swift */; };
+		C67D386127C4229E00DCD334 /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67D386027C4229E00DCD334 /* UtilityExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		C6484D472770BBE0000564F5 /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
 		C6484D492773705A000564F5 /* Diamond.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diamond.swift; sourceTree = "<group>"; };
 		C6484D4B2773723C000564F5 /* Squiggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Squiggle.swift; sourceTree = "<group>"; };
+		C67D386027C4229E00DCD334 /* UtilityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				C6484D312757C709000564F5 /* Assets.xcassets */,
 				C6484D362757C709000564F5 /* Info.plist */,
 				C6484D332757C709000564F5 /* Preview Content */,
+				C67D386027C4229E00DCD334 /* UtilityExtensions.swift */,
 			);
 			path = "Set Game";
 			sourceTree = "<group>";
@@ -174,6 +177,7 @@
 			files = (
 				C6484D302757C700000564F5 /* SetGameView.swift in Sources */,
 				C6484D45276B6EEC000564F5 /* SetCardView.swift in Sources */,
+				C67D386127C4229E00DCD334 /* UtilityExtensions.swift in Sources */,
 				C6484D4C2773723C000564F5 /* Squiggle.swift in Sources */,
 				C6484D482770BBE0000564F5 /* AspectVGrid.swift in Sources */,
 				C6484D4A2773705A000564F5 /* Diamond.swift in Sources */,

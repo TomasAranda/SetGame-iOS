@@ -21,19 +21,11 @@ class SetGameViewModel: ObservableObject {
     }
     
     var matchedCards: Array<Card> {
-        model.dealedCards.filter({ $0.isMatched })
-    }
-    
-    var numberOfDealedCards: Int {
-        model.numberOfDealedCards
+        model.matchedCards
     }
     
     var selectedCards: Array<Card> {
         model.dealedCards.filter({ $0.isSelected })
-    }
-    
-    var thereAreMatchingCards: Bool {
-        model.thereAreMatchedCards
     }
     
     // MARK: Intents
